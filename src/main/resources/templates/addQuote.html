@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Добавить цитату</title>
+</head>
+<body>
+<form th:action="@{/addQuote}"
+      th:object="${personForm}" method="POST">
+    <p><b>Имя</b><br>
+    <div>
+        <input id="userName" name = "userName" type="text" size="39" th:field="*{name}" >
+        <a style="position:fixed;margin: 0;border-width:0;z-index:255"></a>
+    </div>
+    <script>
+        function check() {
+            document.getElementById("userName").value=document.getElementById("Combobox1").value;
+        }
+    </script>
+    <textarea name="comment" cols="40" rows="6" th:field="*{text}"  >
+    </textarea>
+    <p><input type="reset" value="Отменить">
+        <input type="submit" value="+"></p>
+
+    <select id="Combobox1"  onclick="check();" name="Combobox1" size="1"
+            style="position:absolute;left:17%;top:50px;width:199px;height:23px;z-index:3;" >
+        <option th:each="user : ${users}"
+                th:value="${user}"
+                th:utext="${user}"
+         />
+    </select>
+</form>
+<div th:if="${errorMessage1}" th:utext="${errorMessage1}"
+     style="color:red;font-style:italic;">
+</div>
+<div th:if="${errorMessage2}" th:utext="${errorMessage2}"
+     style="color:red;font-style:italic;">
+</div>
+</body>
+</html>

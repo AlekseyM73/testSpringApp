@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous"></link>
+    <meta charset = "UTF-8" />
+    <link href = "css/styles.css" rel = "stylesheet"/>
+    <title>SpringTestApp</title>
+</head>
+<body>
+<style type="text/css">
+    div {
+        width: 60%;
+    }
+</style>
+<div>
+    <ul th:each="quote : ${quotesList}">
+        <li th:text="${quote.getUser()}"></li>
+        <li th:text="${quote.getDate()}"></li>
+        <li th:text="${quote.getText()}"></li>
+    </ul>
+</div>
+<div style=" width: 100px; height: 100px">
+    <div style="position: fixed; top: 100px; left: 65%">
+        <form th:action="@{addQuote}" th:method="get">
+            <input  class="button button-block" type="submit" value="Добавить цитату"/>
+        </form>
+    </div>
+</div>
+<div class="row">
+
+    <div th:if="${quotesList.totalPages != 1}"
+         class="form-group col-md-11 pagination-centered">
+        <ul class="pagination">
+            <li th:class="${quotesList.number == 0} ? disabled"><a
+                    class="pageLink"
+                    th:href="@{/(pageSize=${selectedPageSize}, page=1)}">«</a>
+            </li>
+            <li th:class="${quotesList.number == 0} ? disabled"><a
+                    class="pageLink"
+                    th:href="@{/(pageSize=${selectedPageSize}, page=${quotesList.number})}">←</a>
+            </li>
+            <li
+                    th:class="${quotesList.number == (page - 1)} ? 'active pointer-disabled'"
+                    th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}">
+                <a class="pageLink"
+                   th:href="@{/(pageSize=${selectedPageSize}, page=${page})}"
+                   th:text="${page}"></a>
+            </li>
+            <li
+                    th:class="${quotesList.number + 1 == quotesList.totalPages} ? disabled">
+                <a class="pageLink"
+                   th:href="@{/(pageSize=${selectedPageSize}, page=${quotesList.number + 2})}">→</a>
+            </li>
+            <li
+                    th:class="${quotesList.number + 1 == quotesList.totalPages} ? disabled">
+                <a class="pageLink"
+                   th:href="@{/(pageSize=${selectedPageSize}, page=${quotesList.totalPages})}">»</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div style="position: fixed; top: 140px; left: 65%">
+    <th class="dropdown" style="width: 20%">Сортировка
+        <a th:href="@{'/sort/{sortDate}' (sortDate = 'ASC')}">Старые<i class="fa fa-chevron-circle-up"></i></a>
+        <a th:href="@{'/sort/{sortDate}' (sortDate = 'DESC')}">Новые<i class="fa fa-chevron-circle-down"></i></a>
+    </th>
+</div>
+
+</body>
+</html>
