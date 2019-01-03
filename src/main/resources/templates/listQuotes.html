@@ -35,7 +35,7 @@
 </div>
 <div class="row">
 
-    <div th:if="${quotesList.totalPages != 1}"
+    <div th:if="${quotesList.totalPages != 0}"
          class="form-group col-md-11 pagination-centered">
         <ul class="pagination">
             <li th:class="${quotesList.number == 0} ? disabled"><a
